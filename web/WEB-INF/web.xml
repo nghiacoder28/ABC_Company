@@ -13,8 +13,8 @@
         <servlet-class>controller.plan.PlanCreateController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>PlanDetailController</servlet-name>
-        <servlet-class>controller.plan.PlanDetailController</servlet-class>
+        <servlet-name>ProductionPlanDetailController</servlet-name>
+        <servlet-class>controller.plan.ProductionPlanDetailController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PlanDeleteController</servlet-name>
@@ -37,7 +37,7 @@
         <url-pattern>/productionplan/creates</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PlanDetailController</servlet-name>
+        <servlet-name>ProductionPlanDetailController</servlet-name>
         <url-pattern>/productionplan/detail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

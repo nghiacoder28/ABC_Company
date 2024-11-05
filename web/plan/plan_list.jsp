@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="/WEB-INF/tlds/mytags.tld" prefix="mytag" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -97,8 +98,8 @@
                     <c:forEach var="plan" items="${plans}">
                         <tr>
                             <td>Kế Hoạch Số ${plan.plid}</td>
-                            <td>${plan.startd}</td>
-                            <td>${plan.endd}</td>
+                            <td><mytag:ToVietnameseDate value="${plan.startd}" /></td>
+                            <td><mytag:ToVietnameseDate value="${plan.endd}" /></td>
                             <td class="
                                 <c:choose>
                                     <c:when test="${plan.status == 'On-going'}">status-ongoing</c:when>
@@ -114,6 +115,7 @@
                                 <span class="status-text">${plan.status}</span>
                             </td>
                             <td>
+                                <a href="${pageContext.request.contextPath}/productionplan/detail?planId=${plan.plid}" class="btn btn-info btn-sm">Detail</a>
                                 <a href="${pageContext.request.contextPath}/productionplan/delete?planId=${plan.plid}" class="btn btn-warning btn-sm"
                                    onclick="return confirm('Are you sure you want to delete this plan?');">
                                     Delete

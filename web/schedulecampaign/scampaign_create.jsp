@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="/WEB-INF/tlds/mytags.tld" prefix="mytag" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -81,7 +82,7 @@
 
         <div class="container">
             <h2>Create Schedule Campaign for Plan ID: ${plan.plid}</h2>
-
+            <p>Plan start at date: <mytag:ToVietnameseDate value="${plan.startd}" /></p>
             <form action="${pageContext.request.contextPath}/schedulecampaign/create" method="post">
                 <input type="hidden" name="plid" value="${plan.plid}" />
                 <table class="table table-bordered table-striped schedule-table">

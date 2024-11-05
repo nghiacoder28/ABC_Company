@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/tlds/mytags.tld" prefix="mytag" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +87,7 @@
                 <tbody>
                     <c:forEach var="campaign" items="${scheduleCampaigns}">
                         <tr>
-                            <td>${campaign.date}</td>
+                            <td><mytag:ToVietnameseDate value="${campaign.date}" /></td>
                             <td>${departmentName}</td>
                             <td>${campaign.shift}</td>
                             <td>${campaign.planCampaign.product.pName}</td>
@@ -95,6 +96,9 @@
                     </c:forEach>
                 </tbody>
             </table>
+            <div class="text-center mt-3">
+                <a href="${pageContext.request.contextPath}/productionplan/list" class="btn btn-primary">Back to List</a>
+            </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
