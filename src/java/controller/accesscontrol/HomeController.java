@@ -1,34 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.accesscontrol;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import model.accesscontrol.User;
+import java.io.IOException;
 
-/**
- *
- * @author ACER
- */
-public class HomeController extends HttpServlet {
-    
+public class HomeController extends BaseRBACController {
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        if (user != null) {
-            request.setAttribute("user", user);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("login.jsp");
-        }
+    protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
+        // Xử lý logic cho trang chủ khi người dùng đã có quyền truy cập
+        req.setAttribute("user", loggeduser);
+        req.getRequestDispatcher("/home.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
+        // Chức năng POST không áp dụng cho HomeController trong ví dụ này
+        resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "POST not supported on this resource");
     }
 }

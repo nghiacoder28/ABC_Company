@@ -88,8 +88,9 @@
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Status</th>
-                        <th>Schedule Campaign</th>
                         <th>Plan Action</th>
+                        <th>Schedule Campaign</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -113,18 +114,20 @@
                                 <span class="status-text">${plan.status}</span>
                             </td>
                             <td>
+                                <a href="${pageContext.request.contextPath}/productionplan/delete?planId=${plan.plid}" class="btn btn-warning btn-sm"
+                                   onclick="return confirm('Are you sure you want to delete this plan?');">
+                                    Delete
+                                </a>
+                            </td> 
+                            <td>
                                 <a href="${pageContext.request.contextPath}/schedulecampaign/create?plid=${plan.plid}" class="btn btn-success btn-sm">Create</a>
                                 <a href="${pageContext.request.contextPath}/schedulecampaign/list?plid=${plan.plid}" class="btn btn-info btn-sm">Detail</a>
                             </td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/productionplan/detail?plid=${plan.plid}" class="btn btn-warning btn-sm">Plan Detail</a>
-                                <a href="${pageContext.request.contextPath}/productionplan/update?plid=${plan.plid}" class="btn btn-warning btn-sm">Plan Update</a>
-                            </td>
+
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
-            <a href="${pageContext.request.contextPath}/productionplan/creates" class="btn btn-success btn-sm">Plan Create</a>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

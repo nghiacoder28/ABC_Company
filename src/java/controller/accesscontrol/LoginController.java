@@ -68,7 +68,7 @@ public class LoginController extends HttpServlet {
             FeatureDBContext dbFeature = new FeatureDBContext();
             HttpSession session = request.getSession();
             session.setAttribute("features", dbFeature.get(account.getUsername()));
-            response.sendRedirect("home.jsp");
+            response.sendRedirect(request.getContextPath() + "/home");
         } else {
             response.getWriter().println("login failed!");
         }

@@ -16,6 +16,10 @@
         <servlet-name>PlanDetailController</servlet-name>
         <servlet-class>controller.plan.PlanDetailController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PlanDeleteController</servlet-name>
+        <servlet-class>controller.plan.PlanDeleteController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AttendanceController</servlet-name>
         <url-pattern>/attendance/detail</url-pattern>
@@ -35,6 +39,10 @@
     <servlet-mapping>
         <servlet-name>PlanDetailController</servlet-name>
         <url-pattern>/productionplan/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlanDeleteController</servlet-name>
+        <url-pattern>/productionplan/delete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>

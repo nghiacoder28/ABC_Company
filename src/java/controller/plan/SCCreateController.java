@@ -1,11 +1,13 @@
 package controller.plan;
 
+import controller.accesscontrol.BaseRBACController;
 import dal.PlanDBContext;
 import dal.ProductDBContext;
 import dal.ScheduleCampaignDBContext;
 import dal.PlanCampaignDBContext;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,12 +16,12 @@ import model.Plan;
 import model.Product;
 import model.ScheduleCampaign;
 import model.PlanCampaign;
-import java.text.SimpleDateFormat;
+import model.accesscontrol.User;
 
-public class SCCreateController extends HttpServlet {
+public class SCCreateController extends BaseRBACController {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User loggeduser) throws ServletException, IOException {
         int plid = Integer.parseInt(request.getParameter("plid"));
         PlanDBContext planDB = new PlanDBContext();
         Plan plan = planDB.get(plid);
@@ -38,7 +40,7 @@ public class SCCreateController extends HttpServlet {
         Date startDate = plan.getStartd();
         Date endDate = plan.getEndd();
 
-// Cập nhật format date trước khi truyền vào request
+        // Cập nhật format date trước khi truyền vào request
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<String> formattedDates = new ArrayList<>();
 
@@ -47,14 +49,13 @@ public class SCCreateController extends HttpServlet {
         }
 
         request.setAttribute("dates", formattedDates);
-
         request.setAttribute("plan", plan);
         request.setAttribute("products", products);
-        request.setAttribute("dates", formattedDates);
         request.getRequestDispatcher("/schedulecampaign/scampaign_create.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User loggeduser) throws ServletException, IOException {
         ScheduleCampaignDBContext scheduleDB = new ScheduleCampaignDBContext();
         int plid = Integer.parseInt(request.getParameter("plid"));
 
@@ -116,5 +117,4 @@ public class SCCreateController extends HttpServlet {
         // Điều hướng lại danh sách hoặc trang xác nhận
         response.sendRedirect("../productionplan/list");
     }
-
 }

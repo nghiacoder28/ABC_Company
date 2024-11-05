@@ -119,36 +119,38 @@ public class PlanDBContext extends DBContext<Plan> {
         try {
             connection.setAutoCommit(false);
 
-            // Xóa các chiến dịch liên quan trong ScheduleCampaign trước
-            String sql_delete_scheduleCampaign = "DELETE FROM [ScheduleCampaign] WHERE canid IN (SELECT canid FROM [PlanCampaign] WHERE plid = ?)";
-            PreparedStatement stm_delete_scheduleCampaign = connection.prepareStatement(sql_delete_scheduleCampaign);
-            stm_delete_scheduleCampaign.setInt(1, plan.getPlid());
-            stm_delete_scheduleCampaign.executeUpdate();
+            // Xóa các chiến dịch liên quan trong `ScheduleCampaign`
+            String sql_delete_scheduleCampaign = "DELETE FROM ScheduleCampaign WHERE canid IN (SELECT canid FROM PlanCampaign WHERE plid = ?)";
+            try (PreparedStatement stm_delete_scheduleCampaign = connection.prepareStatement(sql_delete_scheduleCampaign)) {
+                stm_delete_scheduleCampaign.setInt(1, plan.getPlid());
+                stm_delete_scheduleCampaign.executeUpdate();
+            }
 
-            // Xóa các chiến dịch liên quan trong PlanCampaign
-            String sql_delete_campaigns = "DELETE FROM [PlanCampaign] WHERE plid = ?";
-            PreparedStatement stm_delete_campaigns = connection.prepareStatement(sql_delete_campaigns);
-            stm_delete_campaigns.setInt(1, plan.getPlid());
-            stm_delete_campaigns.executeUpdate();
+            // Xóa các chiến dịch liên quan trong `PlanCampaign`
+            String sql_delete_campaigns = "DELETE FROM PlanCampaign WHERE plid = ?";
+            try (PreparedStatement stm_delete_campaigns = connection.prepareStatement(sql_delete_campaigns)) {
+                stm_delete_campaigns.setInt(1, plan.getPlid());
+                stm_delete_campaigns.executeUpdate();
+            }
 
-            // Xóa Plan trong bảng Plan
-            String sql_delete_plan = "DELETE FROM [Plan] WHERE plid = ?";
-            PreparedStatement stm_delete_plan = connection.prepareStatement(sql_delete_plan);
-            stm_delete_plan.setInt(1, plan.getPlid());
-            stm_delete_plan.executeUpdate();
+            // Xóa `Plan` trong bảng `Plan`
+            String sql_delete_plan = "DELETE FROM Plan WHERE plid = ?";
+            try (PreparedStatement stm_delete_plan = connection.prepareStatement(sql_delete_plan)) {
+                stm_delete_plan.setInt(1, plan.getPlid());
+                stm_delete_plan.executeUpdate();
+            }
 
             connection.commit();
         } catch (SQLException ex) {
-            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             try {
                 connection.rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
             }
         } finally {
             try {
                 connection.setAutoCommit(true);
-                connection.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
